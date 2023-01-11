@@ -54,17 +54,41 @@ function animate() {
     player.update()
     platform.draw()
     
-    if(keys.right.pressed) {
+    if(keys.right.pressed
+        && player.position.x < 400
+        ) {
         player.velocity.x = 5
-    } else if(keys.left.pressed) {player.velocity.x = -5} 
-    else {player.velocity.x = 0}
+    } else if(keys.left.pressed && player.position.x > 100) {player.velocity.x = -5} 
+    else {
+        console.log(platform.position.x)
+        player.velocity.x = 0
+        // if(platform.position.x <= 200) {
+
+            
+            if(keys.right.pressed) {
+                platform.position.x -= 5
+            } else if (keys.left.pressed) {
+                platform.position.x += 5
+            }
+        // }
+    }
+
+// platform collision detection
+    if (player.position.y + player.height 
+        <= platform.position.y && 
+        player.position.y + player.height + player.velocity.y
+        >= platform.position.y && player.position.x + player.width 
+        >= platform.position.x 
+        && player.position.x <= platform.position.x + platform.width) {
+            player.velocity.y = 0
+    }
 }
 
 class Platform {
     constructor() {
         this.position = {
             x: 200,
-            y: 100
+            y: 700
         }
         
         this.width = 200
@@ -113,19 +137,19 @@ addEventListener('keyup', ({keyCode}) => {
         keys.left.pressed = false
         break
     
-        case 83: 
-        console.log('down')
-        break
+        // case 83: 
+        // console.log('down')
+        // break
         
         case 68: 
         console.log('right')
         keys.right.pressed = false
         break
     
-        case 87: 
-        console.log('up')
-        player.velocity.y -= 20
-        break
+        // case 87: 
+        // console.log('up')
+        // player.velocity.y -= 20
+        // break
     }
     console.log(keys.right.pressed)
     })
