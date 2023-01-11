@@ -1,6 +1,9 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
+var platform = new Image();
+platform.src = './images/platform.png'
+
 canvas.width = innerWidth
 canvas.height = innerHeight
 
@@ -23,6 +26,7 @@ class Player {
     }
 
     draw() {
+        c.fillStyle = 'red'
         c.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 
@@ -55,23 +59,32 @@ class Platform {
             y: y
         }
         
-        this.width = 200
+        this.width = platform.width
         this.height = 20
+
+        this.platform = platform
     }
 
+    
+
     draw() {
-        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+        c.drawImage(this.platform, this.position.x, this.position.y)
     }
 }
 
+const image = new Image()
+image.src = platform
+console.log(image.width)
+
 const player = new Player()
-const platforms = [new Platform({x: 200, y: 200}), new Platform({x: 400, y: 400})]
+const platforms = [new Platform({x: 200, y: 600}), new Platform({x: 5000, y: 400})]
 
 let scrollOffset = 0
 
 function animate() {
     requestAnimationFrame(animate)
-    c.clearRect(0,0, canvas.width, canvas.height)
+    c.fillStyle = 'brown'
+    c.fillRect(0,0, canvas.width, canvas.height)
     player.update()
     platforms.forEach(platform => {
         platform.draw()
