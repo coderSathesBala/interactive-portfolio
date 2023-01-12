@@ -4,6 +4,12 @@ const c = canvas.getContext('2d')
 var platform = new Image();
 platform.src = './images/platform.png'
 
+var hills = new Image();
+hills.src = './images/hills.png'
+
+var background = new Image();
+background.src = './images/background.png'
+
 canvas.width = innerWidth
 canvas.height = innerHeight
 
@@ -56,12 +62,11 @@ class Platform {
     constructor({x, y}) {
         this.position = {
             x: x,
-            y: y
+            y: 830
         }
         
         this.width = platform.width
         this.height = 20
-
         this.platform = platform
     }
 
@@ -72,12 +77,44 @@ class Platform {
     }
 }
 
+class GenericObject {
+    constructor({x, y}) {
+        this.position = {
+            x: x,
+            y: y
+        }
+        
+        this.width = hills.width
+        this.height = 20
+
+        this.hills = hills
+    }
+
+    
+
+    draw() {
+        c.drawImage(this.hills, this.position.x, this.position.y)
+    }
+}
+
+// function createImage(imageSrc) {
+//     const image = new Image()
+//     image.src = platform
+//     return image
+// }
+
 const image = new Image()
 image.src = platform
 console.log(image.width)
+const imagez = new Image()
+imagez.src = hills
+console.log(imagez.width)
 
 const player = new Player()
-const platforms = [new Platform({x: 200, y: 600}), new Platform({x: 5000, y: 400})]
+const platforms = [new Platform({x: -1, y: 830}), new Platform({x: 577, y: 470}), new Platform({x: 1155, y: 470})]
+const genericObjects = [new GenericObject({x: 800, y: 250}),
+    //  new GenericObject({x: 800, y: 600}
+        ]
 
 let scrollOffset = 0
 
@@ -88,6 +125,9 @@ function animate() {
     player.update()
     platforms.forEach(platform => {
         platform.draw()
+    })
+    genericObjects.forEach(genericObject => {
+        genericObject.draw()
     })
     
     if(keys.right.pressed
@@ -108,6 +148,18 @@ function animate() {
                 scrollOffset -=5
                 platforms.forEach(platform => {
                     platform.position.x += 5
+                })
+            }
+
+            if(keys.right.pressed) {
+                scrollOffset += 5
+                genericObjects.forEach(genericObject => {
+                    genericObject.position.x -= 5
+                })
+            } else if (keys.left.pressed) {
+                scrollOffset -=5
+                genericObjects.forEach(genericObject => {
+                    genericObject.position.x += 5
                 })
             }
     }
