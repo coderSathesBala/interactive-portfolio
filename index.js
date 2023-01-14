@@ -1,3 +1,13 @@
+// Pages
+
+// 1) Background and name
+// 2) About
+// 3) Projects
+// 4) Favorite Music and Movies
+// 5) Future coding things page
+// 6) Obstacles page, with fighting if possible
+// 7) Contacts page
+
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
