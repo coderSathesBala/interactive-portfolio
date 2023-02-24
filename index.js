@@ -1,12 +1,12 @@
 // Pages
-
-// 1) Background and name
-// 2) About
-// 3) Projects
-// 4) Favorite Music and Movies
-// 5) Future coding things page
-// 6) Obstacles page, with fighting if possible
-// 7) Contacts page
+// Design all pages, figure out how you want everything before you start coding
+// About
+// Projects
+// why i built this portfolio maybe include in projects
+// Favorite Music and Movies
+// Future coding things page
+// Obstacles page, with fighting if possible
+// Contacts page
 
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
@@ -14,20 +14,33 @@ const c = canvas.getContext('2d')
 const platform = new Image();
 platform.src = './images/platform.png'
 
-const hills = new Image();
-hills.src = './images/hills.png'
-
 const playerPic = new Image();
 playerPic.src = './images/player.png'
 
-const background = new Image();
-background.src = './images/background.png'
+const introPic = new Image();
+introPic.src = './images/background.png'
 
 canvas.width = innerWidth
 canvas.height = innerHeight
 
-
 const gravity = 0.5
+
+class Intro {
+    constructor(x, y) {
+        this.position = {
+            x: 0,
+            y: 0
+        }
+        this.width = 1910,
+        this.height = 950
+        this.introPic = introPic
+    }
+
+    draw() {
+        c.drawImage(this.introPic, this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
 class Player {
     constructor() {
         this.position = {
@@ -48,8 +61,6 @@ class Player {
 
     draw() {
         c.drawImage(this.playerPic, this.position.x, this.position.y, this.width, this.height)
-        // c.fillStyle = 'red'
-        // c.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 
     update() {
@@ -78,7 +89,7 @@ class Platform {
     constructor({x, y}) {
         this.position = {
             x: x,
-            y: 830
+            y: y
         }
         
         this.width = platform.width
@@ -93,37 +104,9 @@ class Platform {
     }
 }
 
-class AllImage {
-    constructor({x, y}) {
-        this.position = {
-            x: x,
-            y: y
-        }
-        
-        this.width = hills.width
-        this.height = 20
-
-        this.hills = hills
-    }
-
-    
-
-    draw() {
-        c.drawImage(this.hills, this.position.x, this.position.y)
-    }
-}
-
-const image = new Image()
-image.src = platform
-const imagez = new Image()
-imagez.src = hills
-const imagePlayer = new Image()
-imagePlayer.src = playerPic
-
+const intros = [new Intro({x: -10, y:700})]
 const player = new Player()
-const platforms = [new Platform({x: -1, y: 830}), new Platform({x: 577, y: 470}), new Platform({x: 1155, y: 470})]
-const allImages = [new AllImage({x: 800, y: 250})
-        ]
+const platforms = [new Platform({x: 1255, y: 560}), new Platform({x: 3555, y: 300})]
 
 let scrollOffset = 0
 
@@ -131,12 +114,12 @@ function animate() {
     requestAnimationFrame(animate)
     c.fillStyle = 'white'
     c.fillRect(0,0, canvas.width, canvas.height)
+    intros.forEach(intro => {
+        intro.draw()
+    })
     player.update()
     platforms.forEach(platform => {
         platform.draw()
-    })
-    allImages.forEach(allImage => {
-        allImage.draw()
     })
     
     if(keys.right.pressed
@@ -149,27 +132,31 @@ function animate() {
 
             
             if(keys.right.pressed) {
+                console.log(player.x)
                 scrollOffset += 5
                 platforms.forEach(platform => {
-                    platform.position.x -= 5
+                    platform.position.x -= 25
                 })
+
             } else if (keys.left.pressed) {
                 scrollOffset -=5
+
                 platforms.forEach(platform => {
-                    platform.position.x += 5
+                    platform.position.x += 25
                 })
             }
 
             if(keys.right.pressed) {
                 scrollOffset += 5
-                allImages.forEach(allImage => {
-                    allImage.position.x -= 5
+                intros.forEach(intro => {
+                    intro.position.x -= 25
                 })
             } else if (keys.left.pressed) {
                 scrollOffset -=5
-                allImages.forEach(allImage => {
-                    allImage.position.x += 5
+                intros.forEach(intro => {
+                    intro.position.x += 25
                 })
+
             }
     }
 
