@@ -17,6 +17,9 @@ platform.src = './images/platform.png'
 const hills = new Image();
 hills.src = './images/hills.png'
 
+const playerPic = new Image();
+playerPic.src = './images/player.png'
+
 const background = new Image();
 background.src = './images/background.png'
 
@@ -29,7 +32,7 @@ class Player {
     constructor() {
         this.position = {
             x: 100,
-            y: 100
+            y: 500
         }
 
         this.velocity = {
@@ -37,13 +40,16 @@ class Player {
             y: 0
         }
 
-        this.width = 30
-        this.height = 30
+        this.width = playerPic.width
+        this.height = playerPic.height
+
+        this.playerPic = playerPic
     }
 
     draw() {
-        c.fillStyle = 'red'
-        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+        c.drawImage(this.playerPic, this.position.x, this.position.y, this.width, this.height)
+        // c.fillStyle = 'red'
+        // c.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 
     update() {
@@ -111,6 +117,8 @@ const image = new Image()
 image.src = platform
 const imagez = new Image()
 imagez.src = hills
+const imagePlayer = new Image()
+imagePlayer.src = playerPic
 
 const player = new Player()
 const platforms = [new Platform({x: -1, y: 830}), new Platform({x: 577, y: 470}), new Platform({x: 1155, y: 470})]
@@ -121,7 +129,7 @@ let scrollOffset = 0
 
 function animate() {
     requestAnimationFrame(animate)
-    c.fillStyle = 'brown'
+    c.fillStyle = 'white'
     c.fillRect(0,0, canvas.width, canvas.height)
     player.update()
     platforms.forEach(platform => {
