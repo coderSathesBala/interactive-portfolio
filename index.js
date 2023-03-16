@@ -12,7 +12,7 @@ const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
 const platform = new Image();
-platform.src = './images/platform.png'
+platform.src = './images/kendrickdamn.jpg'
 
 const playerPic = new Image();
 playerPic.src = './images/player.png'
@@ -25,6 +25,7 @@ canvas.height = innerHeight
 
 const gravity = 0.5
 
+
 class Intro {
     constructor(x, y) {
         this.position = {
@@ -35,16 +36,31 @@ class Intro {
         this.height = 950
         this.introPic = introPic
     }
-
+    
     draw() {
         c.drawImage(this.introPic, this.position.x, this.position.y, this.width, this.height)
     }
+}
+    
+class Word {
+    constructor({x, y, sentence}) {
+        this.sentence = sentence
+        this.position = {
+            x: x,
+            y: y
+        }
+    }
+draw() {
+    c.fillStyle = 'blue'
+    c.fillText(this.sentence, this.position.x, this.position.y)
+}
+    
 }
 
 class Player {
     constructor() {
         this.position = {
-            x: 100,
+            x: 1000,
             y: 500
         }
 
@@ -104,7 +120,11 @@ class Platform {
     }
 }
 
-const intros = [new Intro({x: -10, y:700})]
+const words = [new Word({x: 1000, y:20, sentence:'About'}), new Word({x: 1000, y: 30, 
+    sentence: 'My name is Sathes Bala, I am currently working in the restaurant industry, and find it awesome and a lot of fun, but I would love to move on to a field where I get to learn something new everyday and have a better worklife balance, which is why I got in to coding.'
+
+})]
+const intros = [new Intro()]
 const player = new Player()
 const platforms = [new Platform({x: 1255, y: 560}), new Platform({x: 3555, y: 300})]
 
@@ -116,6 +136,9 @@ function animate() {
     c.fillRect(0,0, canvas.width, canvas.height)
     intros.forEach(intro => {
         intro.draw()
+    })
+    words.forEach(word => {
+        word.draw()
     })
     player.update()
     platforms.forEach(platform => {
